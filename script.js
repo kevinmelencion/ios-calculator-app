@@ -6,6 +6,7 @@ let firstValue = null;
 let operator = null;
 let waitingForSecondValue = false;
 let displayValue = '0';
+let audioContext = null;
 
 function updateDisplay() {
   resultDisplay.textContent = displayValue;
@@ -19,6 +20,37 @@ function updateClearButton() {
   if (clearButton) {
     clearButton.textContent = shouldUseAllClear() ? 'AC' : 'C';
   }
+}
+
+function playButtonSound() {
+  if (typeof window === 'undefined') {
+    return;
+  }
+
+  if (!audioContext) {
+    audioContext = new (window.AudioContext || window.webkitAudioContext)();
+  }
+
+  if (audioContext.state === 'suspended') {
+    audioContext.resume();
+  }
+
+  const oscillator = audioContext.createOscillator();
+  const gainNode = audioContext.createGain();
+
+  oscillator.type = 'sine';
+  oscillator.frequency.setValueAtTime(660, audioContext.currentTime);
+  oscillator.frequency.exponentialRampToValueAtTime(520, audioContext.currentTime + 0.05);
+
+  gainNode.gain.setValueAtTime(0.0001, audioContext.currentTime);
+  gainNode.gain.exponentialRampToValueAtTime(0.03, audioContext.currentTime + 0.01);
+  gainNode.gain.exponentialRampToValueAtTime(0.0001, audioContext.currentTime + 0.08);
+
+  oscillator.connect(gainNode);
+  gainNode.connect(audioContext.destination);
+
+  oscillator.start();
+  oscillator.stop(audioContext.currentTime + 0.09);
 }
 
 function clearCalculator(clearAll = true) {
@@ -142,6 +174,8 @@ function handleBackspace() {
 
 document.querySelectorAll('.btn').forEach((button) => {
   button.addEventListener('click', () => {
+    playButtonSound();
+
     const { type, value } = button.dataset;
 
     if (type === 'number') {
