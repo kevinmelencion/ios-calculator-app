@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>iOS Calculator</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="calculator" aria-label="calculator app">
+      <section class="display" aria-live="polite">
+        <span id="expression" class="expression">0</span>
+        <span id="result" class="result">0</span>
+      </section>
+
+      <section class="buttons" aria-label="calculator buttons">
+        <button class="btn btn-secondary" data-type="clear">AC</button>
+        <button class="btn btn-secondary" data-type="sign">±</button>
+        <button class="btn btn-secondary" data-type="percent">%</button>
+        <button class="btn btn-operator" data-type="operator" data-value="/">÷</button>
+
+        <button class="btn" data-type="number" data-value="7">7</button>
+        <button class="btn" data-type="number" data-value="8">8</button>
+        <button class="btn" data-type="number" data-value="9">9</button>
+        <button class="btn btn-operator" data-type="operator" data-value="*">×</button>
+
+        <button class="btn" data-type="number" data-value="4">4</button>
+        <button class="btn" data-type="number" data-value="5">5</button>
+        <button class="btn" data-type="number" data-value="6">6</button>
+        <button class="btn btn-operator" data-type="operator" data-value="-">−</button>
+
+        <button class="btn" data-type="number" data-value="1">1</button>
+        <button class="btn" data-type="number" data-value="2">2</button>
+        <button class="btn" data-type="number" data-value="3">3</button>
+        <button class="btn btn-operator" data-type="operator" data-value="+">+</button>
+
+        <button class="btn btn-zero" data-type="number" data-value="0">0</button>
+        <button class="btn" data-type="decimal">.</button>
+        <button class="btn btn-operator" data-type="operator" data-value="=">=</button>
+      </section>
+    </main>
+
+    <script src="script.js"></script>
+  </body>
+</html>

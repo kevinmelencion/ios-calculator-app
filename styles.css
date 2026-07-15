@@ -1,0 +1,107 @@
+:root {
+  color-scheme: dark;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --bg: #1c1c1e;
+  --display: #000000;
+  --text: #ffffff;
+  --button: #333333;
+  --button-secondary: #a5a5a5;
+  --button-operator: #ff9f0a;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  background: linear-gradient(135deg, #2f2f31, #0f0f10);
+  color: var(--text);
+  padding: 1rem;
+}
+
+.calculator {
+  width: min(100%, 390px);
+  background: var(--display);
+  border-radius: 32px;
+  padding: 1.25rem;
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.35);
+}
+
+.display {
+  min-height: 140px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: flex-end;
+  padding: 1rem 0.5rem;
+  gap: 0.35rem;
+}
+
+.expression {
+  font-size: 1.1rem;
+  color: rgba(255, 255, 255, 0.7);
+  min-height: 1.25rem;
+}
+
+.result {
+  font-size: clamp(2.4rem, 6vw, 3.5rem);
+  font-weight: 300;
+  line-height: 1;
+}
+
+.buttons {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.75rem;
+}
+
+.btn {
+  border: 0;
+  border-radius: 999px;
+  height: 72px;
+  font-size: 1.6rem;
+  font-weight: 400;
+  color: var(--text);
+  background: var(--button);
+  cursor: pointer;
+  transition: transform 0.15s ease, filter 0.15s ease;
+}
+
+.btn:hover {
+  filter: brightness(1.1);
+}
+
+.btn:active {
+  transform: scale(0.97);
+}
+
+.btn-secondary {
+  background: var(--button-secondary);
+  color: #111111;
+}
+
+.btn-operator {
+  background: var(--button-operator);
+}
+
+.btn-zero {
+  grid-column: span 2;
+  text-align: left;
+  padding-left: 1.7rem;
+}
+
+@media (max-width: 480px) {
+  .calculator {
+    padding: 1rem;
+    border-radius: 24px;
+  }
+
+  .btn {
+    height: 64px;
+    font-size: 1.45rem;
+  }
+}
