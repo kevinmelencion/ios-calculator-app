@@ -1,15 +1,51 @@
 const expressionDisplay = document.getElementById('expression');
 const resultDisplay = document.getElementById('result');
 const clearButton = document.querySelector('[data-type="clear"]');
+const historyList = document.getElementById('history-list');
 
 let firstValue = null;
 let operator = null;
 let waitingForSecondValue = false;
 let displayValue = '0';
 let audioContext = null;
+let history = [];
 
 function updateDisplay() {
   resultDisplay.textContent = displayValue;
+}
+
+function renderHistory() {
+  if (!historyList) {
+    return;
+  }
+
+  historyList.innerHTML = '';
+
+  if (history.length === 0) {
+    const emptyItem = document.createElement('li');
+    emptyItem.className = 'history-empty';
+    emptyItem.textContent = 'No recent calculations';
+    historyList.appendChild(emptyItem);
+    return;
+  }
+
+  history.slice().reverse().forEach((entry) => {
+    const item = document.createElement('li');
+    const expression = document.createElement('span');
+    const result = document.createElement('strong');
+
+    expression.textContent = entry.expression;
+    result.textContent = entry.result;
+
+    item.appendChild(expression);
+    item.appendChild(result);
+    historyList.appendChild(item);
+  });
+}
+
+function addToHistory(expression, resultValue) {
+  history = [...history, { expression, result: resultValue }].slice(-5);
+  renderHistory();
 }
 
 function shouldUseAllClear() {
@@ -142,12 +178,14 @@ function handleEquals() {
 
   const secondValue = Number(displayValue);
   const result = calculate(firstValue, secondValue, operator);
+  const expressionText = `${firstValue} ${operator} ${secondValue} =`;
 
   displayValue = String(result);
-  expressionDisplay.textContent = `${firstValue} ${operator} ${secondValue} =`;
+  expressionDisplay.textContent = expressionText;
   firstValue = result;
   operator = null;
   waitingForSecondValue = false;
+  addToHistory(expressionText, String(result));
   updateDisplay();
   updateClearButton();
 }
@@ -277,3 +315,4 @@ document.addEventListener('keydown', handleKeyboardInput);
 
 updateDisplay();
 updateClearButton();
+renderHistory();
