@@ -29,7 +29,11 @@ It shows how ideas can be broken into small steps, tested, and improved over tim
 
 ## 📸 Screenshot
 
+<div align="center">
+
 ![Calculator app screenshot](./assets/calculator-screenshot.png)
+
+</div>
 
 ## ▶️ How to Run
 
