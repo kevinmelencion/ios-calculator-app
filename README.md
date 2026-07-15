@@ -27,6 +27,12 @@ It shows how ideas can be broken into small steps, tested, and improved over tim
 - CSS
 - JavaScript
 
+## 📸 Screenshot
+
+Add a screenshot of the calculator here once you have one:
+
+![Calculator app screenshot](./assets/screenshot.png)
+
 ## ▶️ How to Run
 
 Open the project in your browser by loading the file:
