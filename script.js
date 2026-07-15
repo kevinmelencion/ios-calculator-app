@@ -172,46 +172,89 @@ function handleBackspace() {
   updateClearButton();
 }
 
+function handleButton(button) {
+  playButtonSound();
+
+  const { type, value } = button.dataset;
+
+  if (type === 'number') {
+    appendNumber(value);
+    return;
+  }
+
+  if (type === 'decimal') {
+    appendDecimal();
+    return;
+  }
+
+  if (type === 'clear') {
+    clearCalculator(shouldUseAllClear());
+    return;
+  }
+
+  if (type === 'sign') {
+    toggleSign();
+    return;
+  }
+
+  if (type === 'backspace') {
+    handleBackspace();
+    return;
+  }
+
+  if (type === 'operator') {
+    if (value === '=') {
+      handleEquals();
+    } else {
+      setOperator(value);
+    }
+  }
+}
+
+function handleKeyboardInput(event) {
+  const { key } = event;
+
+  if (/^[0-9]$/.test(key)) {
+    appendNumber(key);
+    event.preventDefault();
+    return;
+  }
+
+  if (key === '.') {
+    appendDecimal();
+    event.preventDefault();
+    return;
+  }
+
+  if (['+', '-', '*', '/'].includes(key)) {
+    setOperator(key);
+    event.preventDefault();
+    return;
+  }
+
+  if (key === '=' || key === 'Enter') {
+    handleEquals();
+    event.preventDefault();
+    return;
+  }
+
+  if (key === 'Backspace') {
+    handleBackspace();
+    event.preventDefault();
+    return;
+  }
+
+  if (key === 'Escape' || key === 'c' || key === 'C') {
+    clearCalculator(shouldUseAllClear());
+    event.preventDefault();
+  }
+}
+
 document.querySelectorAll('.btn').forEach((button) => {
-  button.addEventListener('click', () => {
-    playButtonSound();
-
-    const { type, value } = button.dataset;
-
-    if (type === 'number') {
-      appendNumber(value);
-      return;
-    }
-
-    if (type === 'decimal') {
-      appendDecimal();
-      return;
-    }
-
-    if (type === 'clear') {
-      clearCalculator(shouldUseAllClear());
-      return;
-    }
-
-    if (type === 'sign') {
-      toggleSign();
-      return;
-    }
-
-    if (type === 'backspace') {
-      handleBackspace();
-      return;
-    }
-
-    if (type === 'operator') {
-      if (value === '=') {
-        handleEquals();
-      } else {
-        setOperator(value);
-      }
-    }
-  });
+  button.addEventListener('click', () => handleButton(button));
 });
+
+document.addEventListener('keydown', handleKeyboardInput);
 
 updateDisplay();
 updateClearButton();
