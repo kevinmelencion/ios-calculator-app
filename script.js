@@ -158,6 +158,20 @@ function toggleSign() {
   updateClearButton();
 }
 
+function applyPercent() {
+  const currentValue = Number(displayValue);
+
+  if (operator && firstValue !== null) {
+    const percentValue = (firstValue * currentValue) / 100;
+    displayValue = String(percentValue);
+  } else {
+    displayValue = String(currentValue / 100);
+  }
+
+  updateDisplay();
+  updateClearButton();
+}
+
 function handleBackspace() {
   if (waitingForSecondValue) {
     displayValue = '0';
@@ -199,6 +213,11 @@ function handleButton(button) {
 
   if (type === 'backspace') {
     handleBackspace();
+    return;
+  }
+
+  if (type === 'percent') {
+    applyPercent();
     return;
   }
 
