@@ -1,5 +1,6 @@
 const expressionDisplay = document.getElementById('expression');
 const resultDisplay = document.getElementById('result');
+const clearButton = document.querySelector('[data-type="clear"]');
 
 let firstValue = null;
 let operator = null;
@@ -10,13 +11,33 @@ function updateDisplay() {
   resultDisplay.textContent = displayValue;
 }
 
-function clearCalculator() {
-  firstValue = null;
-  operator = null;
-  waitingForSecondValue = false;
-  displayValue = '0';
-  expressionDisplay.textContent = '0';
+function shouldUseAllClear() {
+  return displayValue === '0' && firstValue === null && operator === null && !waitingForSecondValue;
+}
+
+function updateClearButton() {
+  if (clearButton) {
+    clearButton.textContent = shouldUseAllClear() ? 'AC' : 'C';
+  }
+}
+
+function clearCalculator(clearAll = true) {
+  if (clearAll) {
+    firstValue = null;
+    operator = null;
+    waitingForSecondValue = false;
+    displayValue = '0';
+    expressionDisplay.textContent = '0';
+  } else {
+    displayValue = '0';
+    waitingForSecondValue = false;
+    expressionDisplay.textContent = '0';
+    firstValue = null;
+    operator = null;
+  }
+
   updateDisplay();
+  updateClearButton();
 }
 
 function appendNumber(number) {
@@ -28,6 +49,7 @@ function appendNumber(number) {
   }
 
   updateDisplay();
+  updateClearButton();
 }
 
 function appendDecimal() {
@@ -39,6 +61,7 @@ function appendDecimal() {
   }
 
   updateDisplay();
+  updateClearButton();
 }
 
 function setOperator(nextOperator) {
@@ -62,6 +85,7 @@ function setOperator(nextOperator) {
   operator = nextOperator;
   expressionDisplay.textContent = `${firstValue} ${operator}`;
   updateDisplay();
+  updateClearButton();
 }
 
 function calculate(first, second, currentOperator) {
@@ -93,11 +117,13 @@ function handleEquals() {
   operator = null;
   waitingForSecondValue = false;
   updateDisplay();
+  updateClearButton();
 }
 
 function toggleSign() {
   displayValue = String(Number(displayValue) * -1);
   updateDisplay();
+  updateClearButton();
 }
 
 function handleBackspace() {
@@ -111,6 +137,7 @@ function handleBackspace() {
   }
 
   updateDisplay();
+  updateClearButton();
 }
 
 document.querySelectorAll('.btn').forEach((button) => {
@@ -128,7 +155,7 @@ document.querySelectorAll('.btn').forEach((button) => {
     }
 
     if (type === 'clear') {
-      clearCalculator();
+      clearCalculator(shouldUseAllClear());
       return;
     }
 
@@ -153,3 +180,4 @@ document.querySelectorAll('.btn').forEach((button) => {
 });
 
 updateDisplay();
+updateClearButton();
