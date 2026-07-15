@@ -55,3 +55,7 @@ If you prefer, you can also serve the folder locally with a simple static server
 ## 🙌 Acknowledgment
 
 This project is a fun example of learning how to code with AI, one feature at a time.
+
+## License
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
