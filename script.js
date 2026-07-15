@@ -10,8 +10,50 @@ let displayValue = '0';
 let audioContext = null;
 let history = [];
 
+function willOverflow(text) {
+  if (!resultDisplay || typeof window === 'undefined' || !window.document) {
+    return false;
+  }
+
+  const styles = window.getComputedStyle(resultDisplay);
+  const canvas = document.createElement('canvas');
+  const context = canvas.getContext('2d');
+
+  if (!context) {
+    return false;
+  }
+
+  context.font = `${styles.fontSize} ${styles.fontFamily}`;
+  const displayWidth = resultDisplay.clientWidth || 220;
+  return context.measureText(text).width > displayWidth - 12;
+}
+
+function formatDisplayValue(value) {
+  const rawValue = String(value);
+
+  if (!Number.isFinite(Number(rawValue)) || rawValue === 'Error') {
+    return rawValue;
+  }
+
+  if (!rawValue.includes('.')) {
+    return rawValue;
+  }
+
+  let formattedValue = rawValue;
+
+  for (let precision = 10; precision >= 0; precision -= 1) {
+    formattedValue = Number(rawValue).toFixed(precision);
+
+    if (!willOverflow(formattedValue)) {
+      return formattedValue;
+    }
+  }
+
+  return Number(rawValue).toPrecision(10);
+}
+
 function updateDisplay() {
-  resultDisplay.textContent = displayValue;
+  resultDisplay.textContent = formatDisplayValue(displayValue);
 }
 
 function renderHistory() {
