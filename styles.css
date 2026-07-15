@@ -84,6 +84,10 @@ body {
   color: #111111;
 }
 
+.btn-secondary[data-type="backspace"] {
+  font-size: 1.4rem;
+}
+
 .btn-operator {
   background: var(--button-operator);
 }

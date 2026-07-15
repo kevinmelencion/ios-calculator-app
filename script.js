@@ -100,8 +100,16 @@ function toggleSign() {
   updateDisplay();
 }
 
-function applyPercent() {
-  displayValue = String(Number(displayValue) / 100);
+function handleBackspace() {
+  if (waitingForSecondValue) {
+    displayValue = '0';
+    waitingForSecondValue = false;
+  } else if (displayValue.length <= 1 || (displayValue.length === 2 && displayValue.startsWith('-'))) {
+    displayValue = '0';
+  } else {
+    displayValue = displayValue.slice(0, -1);
+  }
+
   updateDisplay();
 }
 
@@ -129,8 +137,8 @@ document.querySelectorAll('.btn').forEach((button) => {
       return;
     }
 
-    if (type === 'percent') {
-      applyPercent();
+    if (type === 'backspace') {
+      handleBackspace();
       return;
     }
 
